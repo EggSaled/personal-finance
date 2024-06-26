@@ -1,0 +1,13 @@
+.expense-form{
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-items: center;
+  gap: 5px;
+}
+.expense-form label{
+  margin-bottom: 0;
+}
