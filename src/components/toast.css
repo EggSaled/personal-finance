@@ -1,0 +1,29 @@
+.tooltip{
+  border: 2px solid #535bf2;
+  border-radius: 8px;
+  padding: 10px;
+  width: 12em;
+  height: 11em;
+  position: absolute;
+  top: 70%;
+  right: 0%;
+  bottom: 0;
+  left: 5%;
+}
+.tooltip-body{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.tooltip-body h6{
+  margin-top: 20px;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tooltip-body{
+  align-self: auto;
+}
+.tooltip-hidden{
+  display: none;
+}
