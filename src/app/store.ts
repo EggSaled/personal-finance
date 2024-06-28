@@ -1,13 +1,15 @@
-import { configureStore } from "@reduxjs/toolkit";
-import budgetReducer from "./budgetSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import budgetReducer from './budgetSlice';
 import expenseReducer from './expenseSlice.ts';
-import indexReducer from "./indexSlice.ts";
+import indexReducer from './indexSlice.ts';
+import messageReducer from './messageSlice.ts';
 
 export const store = configureStore({
   reducer: {
     budget: budgetReducer,
     expense: expenseReducer,
-    index: indexReducer
+    index: indexReducer,
+    message: messageReducer
   }
 });
 
