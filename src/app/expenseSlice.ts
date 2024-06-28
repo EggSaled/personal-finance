@@ -2,12 +2,16 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { Expense } from "../types/Expense";
 import type { RootState } from "./store";
 
+/* Using capacity as an id, since we aren't relying on a database
+ * for this application. */
 export interface ExpenseState {
-  value: Array<Expense>
+  expenses: Array<Expense>,
+  capacity: number
 };
 
 const initialState = {
-  value: []
+  expenses: [],
+  capacity: 0
 } as ExpenseState;
 
 export const expenseSlice = createSlice({
@@ -15,18 +19,34 @@ export const expenseSlice = createSlice({
   initialState,
   reducers: {
     remove: (state, action: PayloadAction<Expense>) => {
-      // NOTE: using name as an id isn't ideal, since more than one expense can have
-      // the same name (and as a result get filtered out)
-      state.value = state.value.filter(e => e.name !== action.payload.name);
+      if(state.capacity == 0 || state.expenses.length === 0) return;
+
+      state.expenses = state.expenses.filter(e => e.id !== action.payload.id);
+
+      if(state.expenses.length !== state.capacity){
+        state.capacity -= 1;
+      }
     },
-    add: (state, action: PayloadAction<Expense>) => {
-      state.value.push(action.payload);
+    addOne: (state, action: PayloadAction<Expense>) => {
+      // Assign an id to the payload, then push onto the state.
+      let newExpense = action.payload;
+      newExpense.id = state.capacity;
+      state.expenses.push(newExpense);
+      state.capacity += 1;
+    },
+    addMany: (state, action: PayloadAction<Array<Expense>>) => {
+      action.payload.forEach((element: Expense) => {
+        element.id = state.capacity;
+        console.log(element);
+        state.expenses.push(element);
+        state.capacity += 1;
+      });
     }
   }
 });
 
-export const { remove, add } = expenseSlice.actions;
+export const { remove, addOne, addMany } = expenseSlice.actions;
 
-export const expenseSelect = (state: RootState) => state.expense.value;
+export const expenseSelect = (state: RootState) => state.expense.expenses;
 
 export default expenseSlice.reducer;
