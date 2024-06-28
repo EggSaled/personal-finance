@@ -29,7 +29,7 @@ export function BudgetForm() {
     <form onSubmit={submitHandler} className="budget-form">
       <fieldset>
         <legend>Are you removing or adding money to your budget? (Current Budget: {budget})</legend>
-        <label htmlFor="withdraw">Withdraw </label>
+        <label htmlFor="withdraw">Withdraw 
         <input 
           id="withdraw" 
           type="radio" 
@@ -37,13 +37,15 @@ export function BudgetForm() {
           value="withdraw" 
           defaultChecked 
         />
-        <label htmlFor="deposit">Deposit </label>
+        </label>
+        <label htmlFor="deposit">Deposit 
         <input 
           id="deposit" 
           type="radio" 
           name="action" 
           value="deposit" 
         />
+        </label>
       </fieldset>
       <label htmlFor="amount">Enter Amount: </label>
       <input 

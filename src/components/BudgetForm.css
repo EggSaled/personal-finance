@@ -11,3 +11,8 @@
 .budget-form label{
   margin-bottom: 0;
 }
+.budget-form fieldset{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
