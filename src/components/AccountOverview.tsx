@@ -11,7 +11,7 @@ export function AccountOverview () {
 
   return (
     <div className="account-overview">
-      <h2>Current Budget: {budget - totalExpenses}</h2>
+      <h2>Available Budget: ${ (budget - totalExpenses).toFixed(2) }</h2>
       <h3>Current Expenses: </h3>
       <ExpenseTable />
     </div>
