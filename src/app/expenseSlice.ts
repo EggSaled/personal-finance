@@ -15,7 +15,9 @@ export const expenseSlice = createSlice({
   initialState,
   reducers: {
     remove: (state, action: PayloadAction<Expense>) => {
-      state.value = state.value.filter(e => e != action.payload);
+      // NOTE: using name as an id isn't ideal, since more than one expense can have
+      // the same name (and as a result get filtered out)
+      state.value = state.value.filter(e => e.name !== action.payload.name);
     },
     add: (state, action: PayloadAction<Expense>) => {
       state.value.push(action.payload);
