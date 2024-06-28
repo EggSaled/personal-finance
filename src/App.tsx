@@ -4,6 +4,7 @@ import { AccountOverview } from './components/AccountOverview';
 import { Header } from './components/header';
 import './App.css';
 import { useAppSelector } from './app/hooks';
+import { Toast } from './components/toast';
 
 function App() {
   const currentComponent = [ <AccountOverview />, <BudgetForm />, <ExpenseForm /> ];
@@ -15,6 +16,7 @@ function App() {
       <Header />
       <div className="main-container">
         { currentComponent[index] }
+        <Toast />
       </div>
     </>);
 }
