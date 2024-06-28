@@ -1,11 +1,11 @@
 import { useAppSelector } from "../app/hooks";
 import { Expense } from "../types/Expense";
-import './accountOverview.css';
 import { ExpenseTable } from "./expensetable";
+import './accountoverview.css';
 
 export function AccountOverview () { 
   const budget: number = useAppSelector(state => state.budget.value);
-  const expense:Array<Expense> = useAppSelector(state => state.expense.value);
+  const expense: Array<Expense> = useAppSelector(state => state.expense.value);
 
   const totalExpenses = expense.reduce<number>((accumulator: number, current: Expense) => current.cost + accumulator, 0)
 
