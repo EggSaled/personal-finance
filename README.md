@@ -1,6 +1,6 @@
 # personal-finances
 
-A React.js app written in TypeScript.
+A React.js + Redux.js app written in TypeScript. App was created using [vite](https://vitejs.dev/).
 
 ## Expanding the ESLint configuration
 
