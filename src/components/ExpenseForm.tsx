@@ -1,12 +1,14 @@
 import { FormEvent, useState } from "react";
-import { useAppDispatch } from "../app/hooks";
+import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { add } from "../app/expenseSlice";
+import { notify } from "../app/messageSlice";
 import type { Expense } from '../types/Expense.ts';
 import './ExpenseForm.css';
 
 export function ExpenseForm() {
   const [isRecurring, setIsRecurring] = useState<boolean>(false);
 
+  const budget = useAppSelector(state => state.budget.value);
   const dispatch = useAppDispatch();
 
   const submitHandler = (event: FormEvent) => {
@@ -42,6 +44,10 @@ export function ExpenseForm() {
     };
 
     dispatch(add(newExpense));
+    dispatch(notify({
+      isSuccessful: true,
+      message: `Created new expense ${ name }, remaining budget: \$${ (budget - cost).toFixed(2) }`
+    }));
   };
 
   return (

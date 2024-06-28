@@ -1,10 +1,11 @@
 import { FormEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks.ts';
 import { withdraw, deposit } from '../app/budgetSlice.ts';
+import { notify } from '../app/messageSlice.ts';
 import './BudgetForm.css';
 
 export function BudgetForm() {
-  const budget = useAppSelector(state => state.budget.value);
+  const budget: number = useAppSelector(state => state.budget.value);
   const dispatch = useAppDispatch();
 
   const submitHandler = (event: FormEvent) => {
@@ -20,30 +21,41 @@ export function BudgetForm() {
   
     if(action === "withdraw"){
       dispatch(withdraw(amount));
+      dispatch(notify(
+        {
+          isSuccessful: true, 
+          message: `Successfully withdrew ${amount}!`
+        }));
+
     } else {
       dispatch(deposit(amount));
+      dispatch(notify(
+        {
+          isSuccessful: true, 
+          message: `Successfully deposited \$${amount.toFixed(2)}!`
+        }));
     }
   };
 
   return (
     <form onSubmit={submitHandler} className="budget-form">
       <fieldset>
-        <legend>Are you removing or adding money to your budget? (Current Budget: {budget})</legend>
-        <label htmlFor="withdraw">Withdraw 
-        <input 
-          id="withdraw" 
-          type="radio" 
-          name="action" 
-          value="withdraw" 
-          defaultChecked 
-        />
-        </label>
+        <legend>Are you removing or adding money to your budget? (Current Budget: ${ budget.toFixed(2) })</legend>
         <label htmlFor="deposit">Deposit 
         <input 
           id="deposit" 
           type="radio" 
           name="action" 
           value="deposit" 
+          defaultChecked 
+        />
+        </label>
+        <label htmlFor="withdraw">Withdraw 
+        <input 
+          id="withdraw" 
+          type="radio" 
+          name="action" 
+          value="withdraw" 
         />
         </label>
       </fieldset>
