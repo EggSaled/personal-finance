@@ -22,10 +22,6 @@ export const expenseSlice = createSlice({
       if(state.capacity == 0 || state.expenses.length === 0) return;
 
       state.expenses = state.expenses.filter(e => e.id !== action.payload.id);
-
-      if(state.expenses.length !== state.capacity){
-        state.capacity -= 1;
-      }
     },
     addOne: (state, action: PayloadAction<Expense>) => {
       // Assign an id to the payload, then push onto the state.
