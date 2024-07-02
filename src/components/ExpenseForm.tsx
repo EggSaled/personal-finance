@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { add } from "../app/expenseSlice";
+import { addOne } from "../app/expenseSlice";
 import { notify } from "../app/messageSlice";
 import type { Expense } from '../types/Expense.ts';
 import './ExpenseForm.css';
@@ -9,7 +9,12 @@ export function ExpenseForm() {
   const [isRecurring, setIsRecurring] = useState<boolean>(false);
 
   const budget = useAppSelector(state => state.budget.value);
+  const expenses = useAppSelector(state => state.expense.expenses);
   const dispatch = useAppDispatch();
+
+  const [availableBudget, setAvailableBudget] = useState<number>(
+    budget - (expenses.reduce<number>((accum: number, next: Expense) => accum + next.cost, 0))
+  );
 
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
@@ -36,6 +41,7 @@ export function ExpenseForm() {
 
     // create new Expense, dispatch to expense state
     const newExpense: Expense = {
+      id: null,
       name,
       note,
       cost,
@@ -43,10 +49,11 @@ export function ExpenseForm() {
       period
     };
 
-    dispatch(add(newExpense));
+    dispatch(addOne(newExpense));
+    setAvailableBudget((availableBudget - cost));
     dispatch(notify({
       isSuccessful: true,
-      message: `Created new expense ${ name }, remaining budget: \$${ (budget - cost).toFixed(2) }`
+      message: `Created new expense ${ name }, remaining budget: \$${ (availableBudget - cost).toFixed(2) }`
     }));
   };
 
