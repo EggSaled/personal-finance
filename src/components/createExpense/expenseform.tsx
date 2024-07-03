@@ -4,10 +4,11 @@ import './expenseform.css';
 
 interface props {
   availableBudget: number,
-  setAvailableBudget: (availableBudget: number) => void
+  setAvailableBudget: (availableBudget: number) => void,
+  onCreateExpense: (expense: Expense) => void
 };
 
-export function ExpenseForm({ availableBudget, setAvailableBudget }: props) {
+export function ExpenseForm({ availableBudget, setAvailableBudget, onCreateExpense }: props) {
   const [isRecurring, setIsRecurring] = useState<boolean>(false);
 
   const submitHandler = (event: FormEvent) => {
@@ -44,6 +45,7 @@ export function ExpenseForm({ availableBudget, setAvailableBudget }: props) {
     };
 
     setAvailableBudget(availableBudget - newExpense.cost);
+    onCreateExpense(newExpense);
   };
 
   return (
