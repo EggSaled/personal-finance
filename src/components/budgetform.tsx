@@ -2,7 +2,7 @@ import { FormEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks.ts';
 import { withdraw, deposit } from '../app/budgetSlice.ts';
 import { notify } from '../app/messageSlice.ts';
-import './BudgetForm.css';
+import './budgetform.css';
 
 export function BudgetForm() {
   const budget: number = useAppSelector(state => state.budget.value);
