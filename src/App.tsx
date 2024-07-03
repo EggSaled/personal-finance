@@ -1,13 +1,13 @@
-import { ExpenseForm } from './components/ExpenseForm';
-import { BudgetForm } from './components/BudgetForm';
-import { AccountOverview } from './components/AccountOverview';
+import { CreateExpense } from './components/createExpense/index.tsx';
+import { BudgetForm } from './components/budgetform.tsx';
+import { AccountOverview } from './components/accountoverview.tsx';
 import { Header } from './components/header';
 import './App.css';
 import { useAppSelector } from './app/hooks';
 import { Toast } from './components/toast';
 
 function App() {
-  const currentComponent = [ <AccountOverview />, <BudgetForm />, <ExpenseForm /> ];
+  const currentComponent = [ <AccountOverview />, <BudgetForm />, <CreateExpense /> ];
 
   const index = useAppSelector(state => state.index.value);
 
