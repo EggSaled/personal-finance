@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { ExpenseForm } from "./expenseform";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { addMany } from "../../app/expenseSlice";
+import { addMany, addOne } from "../../app/expenseSlice";
+import { notify } from "../../app/messageSlice";
 import type { Expense } from "../../types/Expense";
 import './index.css';
 import { ExpenseList } from "./expenselist";
@@ -21,7 +22,19 @@ export function CreateExpense () {
   }
 
   const onCommitExpense = () => {
-    dispatch(addMany(newExpenses));
+    if(newExpenses.length === 1){
+      dispatch(addOne(newExpenses[0]));
+      dispatch(notify({
+        isSuccessful: true,
+        message: `Added new expense: ${newExpenses[0].name}!`
+      }));
+    } else {
+      dispatch(addMany(newExpenses));
+      dispatch(notify({
+        isSuccessful: true,
+        message: `Added ${newExpenses.length} new expenses to record!`
+      }));
+    }
     setNewExpenses([]);
   }
 
@@ -30,11 +43,13 @@ export function CreateExpense () {
       <ExpenseForm 
         availableBudget={availableBudget} 
         setAvailableBudget={setAvailableBudget} 
+        onCreateExpense={onCreateExpense}
       />
       <ExpenseList
         expenses={newExpenses}
         availableBudget={availableBudget}
         onCommitExpense={onCommitExpense}
+        onClearExpenses={() => setNewExpenses([])}
       />
     </div>
   );
