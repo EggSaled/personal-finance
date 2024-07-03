@@ -1,20 +1,15 @@
 import { FormEvent, useState } from "react";
-import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { addOne } from "../app/expenseSlice";
-import { notify } from "../app/messageSlice";
-import type { Expense } from '../types/Expense.ts';
-import './ExpenseForm.css';
+import type { Expense } from '../../types/Expense.ts';
+import './expenseform.css';
 
-export function ExpenseForm() {
+interface props {
+  availableBudget: number,
+  setAvailableBudget: (availableBudget: number) => void,
+  onCreateExpense: (expense: Expense) => void
+};
+
+export function ExpenseForm({ availableBudget, setAvailableBudget, onCreateExpense }: props) {
   const [isRecurring, setIsRecurring] = useState<boolean>(false);
-
-  const budget = useAppSelector(state => state.budget.value);
-  const expenses = useAppSelector(state => state.expense.expenses);
-  const dispatch = useAppDispatch();
-
-  const [availableBudget, setAvailableBudget] = useState<number>(
-    budget - (expenses.reduce<number>((accum: number, next: Expense) => accum + next.cost, 0))
-  );
 
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
@@ -49,12 +44,8 @@ export function ExpenseForm() {
       period
     };
 
-    dispatch(addOne(newExpense));
-    setAvailableBudget((availableBudget - cost));
-    dispatch(notify({
-      isSuccessful: true,
-      message: `Created new expense ${ name }, remaining budget: \$${ (availableBudget - cost).toFixed(2) }`
-    }));
+    setAvailableBudget(availableBudget - newExpense.cost);
+    onCreateExpense(newExpense);
   };
 
   return (

@@ -5,7 +5,7 @@ import { Expense } from '../types/Expense.ts';
 import './expensetable.css';
 
 export function ExpenseTable() {
-  const expense = useAppSelector(state => state.expense.value);
+  const expense = useAppSelector(state => state.expense.expenses);
   const dispatch = useAppDispatch();
 
   const removeExpense = (expense: Expense) => {
@@ -19,7 +19,7 @@ export function ExpenseTable() {
   // Helper function to prevent clutter in the return jsx
   const createRow = (element: Expense) => {
     return (
-      <tr key={ element.name }>
+      <tr key={ element.id }>
         <td>{ element.name }</td>
         <td>{ element.note }</td>
         <td>${ element.cost.toFixed(2) }</td>

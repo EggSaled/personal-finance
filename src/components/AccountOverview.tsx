@@ -5,7 +5,7 @@ import './accountoverview.css';
 
 export function AccountOverview () { 
   const budget: number = useAppSelector(state => state.budget.value);
-  const expense: Array<Expense> = useAppSelector(state => state.expense.value);
+  const expense: Array<Expense> = useAppSelector(state => state.expense.expenses);
 
   const totalExpenses = expense.reduce<number>((accumulator: number, current: Expense) => current.cost + accumulator, 0)
 
