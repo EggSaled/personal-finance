@@ -38,6 +38,12 @@ export function CreateExpense () {
     setNewExpenses([]);
   }
 
+  const onClearExpenses = () => {
+    setNewExpenses([]);
+    // resetting availableBudget
+    setAvailableBudget(budget - (currentExpenses.reduce<number>((accum: number, next: Expense) => accum + next.cost, 0)));
+  };
+
   return (
     <div className="create-expense">
       <ExpenseForm 
@@ -49,7 +55,7 @@ export function CreateExpense () {
         expenses={newExpenses}
         availableBudget={availableBudget}
         onCommitExpense={onCommitExpense}
-        onClearExpenses={() => setNewExpenses([])}
+        onClearExpenses={onClearExpenses}
       />
     </div>
   );
