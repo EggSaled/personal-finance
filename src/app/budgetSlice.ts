@@ -15,11 +15,25 @@ export const budgetSlice = createSlice({
   name: 'budget',
   initialState,
   reducers: {
-    deposit: (state, action: PayloadAction<number>) => {
-      state.value += action.payload;
+    deposit: {
+      reducer(state, action: PayloadAction<number>){
+        state.value += action.payload;
+      },
+      prepare(dollars: number, cents: number){
+        return {
+          payload: ( dollars * 100 ) + cents 
+        };
+      }
     },
-    withdraw: (state, action: PayloadAction<number>) => {
-      state.value -= action.payload;
+    withdraw: { 
+      reducer(state, action: PayloadAction<number>){
+          state.value -= action.payload;
+      },
+      prepare(dollars: number, cents: number){
+        return {
+          payload: ( dollars * 100 ) + cents
+        };
+      }
     }
   }
 });
