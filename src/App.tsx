@@ -1,6 +1,6 @@
 import { CreateExpense } from './components/createExpense/index.tsx';
 import { BudgetForm } from './components/budgetform.tsx';
-import { AccountOverview } from './components/accountoverview.tsx';
+import { AccountOverview } from './components/AccountOverview.tsx'; // macOS is forcing the change from accountoverview.tsx to AccountOverview.tsx
 import { Header } from './components/header';
 import './App.css';
 import { useAppSelector } from './app/hooks';
