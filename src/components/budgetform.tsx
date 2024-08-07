@@ -13,26 +13,28 @@ export function BudgetForm() {
 
     const target = event.target as typeof event.target & {
       action: { value: "withdraw" | "deposit" },
-      amount: { value: number }
+      dollars: { value: number },
+      cents: { value: number }
     };
 
     const action: string = target.action.value;
-    const amount: number = Number(target.amount.value);
+    const dollars: number = Number(target.dollars.value);
+    const cents: number = Number(target.cents.value);
   
     if(action === "withdraw"){
-      dispatch(withdraw(amount));
+      dispatch(withdraw(dollars, cents));
       dispatch(notify(
         {
           isSuccessful: true, 
-          message: `Successfully withdrew ${amount}!`
+          message: `Successfully withdrew \$${ dollars }.${ cents }!`
         }));
 
     } else {
-      dispatch(deposit(amount));
+      dispatch(deposit(dollars, cents));
       dispatch(notify(
         {
           isSuccessful: true, 
-          message: `Successfully deposited \$${amount.toFixed(2)}!`
+          message: `Successfully deposited \$${ dollars }.${ cents }!`
         }));
     }
   };
@@ -40,7 +42,7 @@ export function BudgetForm() {
   return (
     <form onSubmit={submitHandler} className="budget-form">
       <fieldset>
-        <legend>Are you removing or adding money to your budget? (Current Budget: ${ budget.toFixed(2) })</legend>
+        <legend>Are you removing or adding money to your budget? (Current Budget: ${ (budget / 100).toFixed(2) })</legend>
         <label htmlFor="deposit">Deposit 
         <input 
           id="deposit" 
@@ -59,12 +61,26 @@ export function BudgetForm() {
         />
         </label>
       </fieldset>
-      <label htmlFor="amount">Enter Amount: </label>
-      <input 
-        id="amount" 
-        type="number" 
-        name="amount" 
-      />
+      <fieldset>
+        <legend>Enter Amount: </legend>
+        <div>
+          <label htmlFor="dollars">$ </label>
+          <input 
+            id="dollars" 
+            type="number" 
+            name="dollars"
+            min={0} 
+          />
+          <label htmlFor="cents"> . </label>
+          <input 
+            id="cents" 
+            type="number" 
+            name="cents"
+            min={0} 
+            max={99}
+          />
+        </div>
+      </fieldset>
       <button>Apply Changes</button>
     </form>);
 }
