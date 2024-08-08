@@ -33,7 +33,6 @@ export const expenseSlice = createSlice({
     addMany: (state, action: PayloadAction<Array<Expense>>) => {
       action.payload.forEach((element: Expense) => {
         element.id = state.capacity;
-        console.log(element);
         state.expenses.push(element);
         state.capacity += 1;
       });

@@ -18,13 +18,15 @@ export function ExpenseForm({ availableBudget, setAvailableBudget, onCreateExpen
     const target = event.target as typeof event.target & {
       "expense-name": { value: string },
       "expense-note": { value: string },
-      "expense-cost": { value: number },
+      "dollars": { value: number },
+      "cents" : { value: number },
       "expense-period": { value: Expense["period"] }
     };
 
     const name: string = target["expense-name"].value.trim();
     const note: string = target["expense-note"].value.trim();
-    const cost: number = Number(target["expense-cost"].value);
+    const dollars: number = Number(target.dollars.value);
+    const cents: number = Number(target.cents.value);
     
     // period can be null if the user doesn't specify the expense as a recurring expense.
     let period: Expense["period"] = null;
@@ -34,17 +36,23 @@ export function ExpenseForm({ availableBudget, setAvailableBudget, onCreateExpen
       period = target["expense-period"].value;
     }
 
-    // create new Expense, dispatch to expense state
+    /* =========================================================================
+     * Converting cost to cents here instead of in the reducer for now.
+     *
+     * NOTE: Decide whether the conversion to cents should be done in the reducer
+     * or continue to be calculated in the submitHandler (for expenses only). 
+     * ========================================================================= */
+
     const newExpense: Expense = {
       id: null,
       name,
       note,
-      cost,
+      cost: ((dollars * 100) + cents),
       isRecurring,
       period
     };
 
-    setAvailableBudget(availableBudget - newExpense.cost);
+    setAvailableBudget(availableBudget - ((dollars * 100) + cents));
     onCreateExpense(newExpense);
   };
 
@@ -63,14 +71,28 @@ export function ExpenseForm({ availableBudget, setAvailableBudget, onCreateExpen
         id="expense-note" 
         name="expense-note" 
       />
-      <label htmlFor="expense-cost">Cost: </label>
-      <input 
-        type="number" 
-        id="expense-cost" 
-        name="expense-cost" 
-        step={0.01}
-        required
-      />
+      <fieldset>
+        <legend>Cost: </legend>
+        <div>
+          <label htmlFor="dollars">$ </label>
+          <input 
+            type="number" 
+            id="dollars" 
+            name="dollars" 
+            min={0} 
+            required
+          />
+          <label htmlFor="cents"> . </label>
+          <input 
+            type="number" 
+            id="cents" 
+            name="cents" 
+            min={0} 
+            max={99} 
+            required
+          />
+        </div>
+      </fieldset>
       <label htmlFor="expense-recurring">
         Will this be a Recurring Expense?
       </label>
