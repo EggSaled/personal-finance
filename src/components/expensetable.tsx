@@ -22,7 +22,7 @@ export function ExpenseTable() {
       <tr key={ element.id }>
         <td>{ element.name }</td>
         <td>{ element.note }</td>
-        <td>${ element.cost.toFixed(2) }</td>
+        <td>${ ( element.cost / 100 ).toFixed(2) }</td>
         <td>{ element.period == null ? "Not Recurring" : element.period }</td>
         <td>
           <button onClick={ () => removeExpense(element) }>Delete</button>

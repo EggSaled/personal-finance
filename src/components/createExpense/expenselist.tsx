@@ -19,10 +19,10 @@ export function ExpenseList ({ expenses, availableBudget, onCommitExpense, onCle
       <ul>
         { expenses.length === 0 ? 
           <em>No expenses recently created.</em> : 
-          expenses.map((e: Expense, i:number) => <li key={i}>{e.name} - ${e.cost.toFixed(2)}</li>) 
+          expenses.map((e: Expense, i:number) => <li key={i}>{e.name} - ${ (e.cost / 100).toFixed(2) }</li>) 
         }
       </ul>
-      <em>Adding these onto your account overview will change your available budget to: ${availableBudget.toFixed(2)}</em>
+      <em>Adding these onto your account overview will change your available budget to: ${ ( availableBudget / 100 ).toFixed(2) }</em>
       <br />
       <span>
         <button 
