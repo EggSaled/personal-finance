@@ -3,7 +3,7 @@
 // when an expense is added to the redux state, it will be assigned
 // an id.
 export type Expense = {
-  id: number | null,
+  id: number | string | null,
   name: string,
   note: string,
   cost: number,

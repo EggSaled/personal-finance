@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import type { Expense } from "../types/Expense";
 import type { RootState } from "./store";
 
@@ -23,12 +23,17 @@ export const expenseSlice = createSlice({
 
       state.expenses = state.expenses.filter(e => e.id !== action.payload.id);
     },
-    addOne: (state, action: PayloadAction<Expense>) => {
-      // Assign an id to the payload, then push onto the state.
-      let newExpense = action.payload;
-      newExpense.id = state.capacity;
-      state.expenses.push(newExpense);
-      state.capacity += 1;
+    addOne: { 
+      reducer(state, action: PayloadAction<Expense>) {
+        state.expenses.push(action.payload);
+        state.capacity += 1;
+      },
+      prepare(expense: Expense) {
+        expense.id = nanoid();
+        return { 
+          payload: expense
+        };
+      },
     },
     addMany: (state, action: PayloadAction<Array<Expense>>) => {
       action.payload.forEach((element: Expense) => {
